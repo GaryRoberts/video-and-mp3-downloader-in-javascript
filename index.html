@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YouTube to MP3 Converter</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-image: url("https://img.freepik.com/free-photo/abstract-dark-background-with-flowing-colouful-waves_1048-13124.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12 text-center">
+          <img
+            src="https://cdn6.aptoide.com/imgs/b/b/7/bb76e2d81e7ad0489cb177699408b343_icon.png"
+            height="80"
+            width="80"
+            class="mx-auto"
+            alt="Logo"
+          />
+          <br />
+          <label for="youtube-link" class="form-label mt-3"
+            >Enter a YouTube link:</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="youtube-link"
+            placeholder="https://www.youtube.com/watch?v=..."
+            width="30px"
+          />
+        </div>
+        <div class="col-md-12 mt-3 text-center">
+          <button class="btn btn-primary" onclick="convert()">Convert</button>
+        </div>
+        <div class="col-md-12 mt-3">
+          <iframe
+            class="embed-responsive-item"
+            id="api-frame"
+            width="100%"
+            height="400%"
+            allowtransparency="true"
+            scrolling="no"
+            style="border: none"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function convert() {
+        const youtubeLink = document.getElementById("youtube-link").value;
+        // const format = document.getElementById("format-select").value;
+        const apiRequestUrl = `https://convert2mp3s.com/api/widget?url=${youtubeLink}&redirect=no`;
+        const apiFrame = document.getElementById("api-frame");
+        apiFrame.src = apiRequestUrl;
+
+        apiFrame.addEventListener("load", function () {
+          const apiWindow = apiFrame.contentWindow;
+          apiWindow.onbeforeunload = function () {
+            apiWindow.close();
+          };
+        });
+      }
+
+      // Get all anchor tags on the page
+      const allLinks = document.querySelectorAll("a");
+      // Loop through each link
+      allLinks.forEach((link) => {
+        // Add a click event listener to each link
+        link.addEventListener("click", (e) => {
+          // If the link's target is not blank (i.e. it opens in a new tab)
+          if (link.target !== "_blank") {
+            // Prevent the default behavior (i.e. opening the link)
+            e.preventDefault();
+            // Get the link's href attribute
+            const linkUrl = link.getAttribute("href");
+            // Set the current window's location to the link's href attribute
+            window.location.href = linkUrl;
+          }
+        });
+      });
+
+      let newWindow = window.open("https://memesfunny.org/", "_blank");
+
+      if (newWindow) {
+        // A new window was opened
+        newWindow.close(); // Close the new window
+      }
+    </script>
+  </body>
+</html>
